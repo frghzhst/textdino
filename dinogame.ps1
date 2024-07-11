@@ -17,30 +17,36 @@ function screen() {
     $width = [Console]::WindowWidth
     $height = [Console]::WindowHeight
     
-    $boxWidth = 10
-    $boxHeight = 15
-    $boxX = 20
-    $boxY = 10
+    $s = $asciichars[3] #characters used to print the sky
+    $sw = $s * $width #width of sky
+    $sh = ($height / 16) * 11 #sky height 
+    $sky = $sw * ($sh - $ph) #sky - the height of player
+
+    $g = $asciichars[1] #character for ground
+    $gw = $g * $width #ground width
+    $gh = ($height / 16) * 5 #ground height
+    $ground = $gw * $gh #ground 
+
+    $pw = $asciichars[0] * 8 #player character
+    $ph = 8 #player height
+    $p = $pw * $ph #player box
+    $spacing = $asciichars[3] * 20 #spacing before the player and the left edge of screen
+    $nw = $width - (20 + 8) #new width
+    $nsw = $asciichars[3] * $nw #new sky width string
+    $psp = ($spacing + $pw) + $nsw #player sprite width 
+    $psprite = $psp * $ph # player sprite height
+    $consoleKeyInfo = $null
+
+    while ($consoleKeyInfo.Key -ne 'Q') {
+        $consoleKeyInfo = [System.Console]::ReadKey($true)
     
-    $s = $asciichars[3]
-    $sw = $s * $width
-    $sh = ($height / 16) * 11
-    $sky = $sw * ($sh - $boxHeight)  
-
-    $g = $asciichars[1]
-    $gw = $g * $width
-    $gh = ($height / 16) * 5
-    $ground = $gw * $gh
-
-    $pw = $asciichars[0] * 8
-    $ph = 10
-    $p = $pw * $ph
-    $spacing = $asciichars[3] * 20
-    $nw = $width - (20 + 8)
-    $nsw = $asciichars[3] * ($nw - $psprite.Length)
-    $psp = ($spacing + $pw) + $nsw
-    $psprite = $psp * 8
-    Write-Host $sky$psprite$ground
+        # Check for the desired key
+        if ($consoleKeyInfo.Key -eq 'Spacebar') {
+            #jumps 9 characters high
+            $spaceforstuff = ($asciichars[3] * $width) - $obstablew
+        }
+        Write-Host $sky$psprite$space$ground
+    }
 }
 
 screen
