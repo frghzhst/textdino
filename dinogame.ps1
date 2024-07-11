@@ -12,7 +12,12 @@ Write-Host "Key pressed: $($key.Key)"
 $randomNumber = Get-Random -Minimum 0 -Maximum 10
 #>
 function screen() {
-
+	$width = [Console]::WindowWidth 
+	$height = [Console]::WindowWidth
+	$matrix = @(@(0) * $width)
+	for ($i = 1; $i -lt $height; $i++) {
+		$matrix += ,@(0) * $width	
+	}
 }
 
 screen
