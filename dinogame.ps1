@@ -1,7 +1,6 @@
 <#$asciichars = @('█', '▓', '▒', '░', '#', '@', '$', '%', '&', '*', '.', ':', ';', ',', '"', ' ')
-
 Write-Host $asciichars
-
+skib
 while (-not [System.Console]::KeyAvailable) {
     # Perform any actions while waiting for key input
     Start-Sleep -Milliseconds 100  # Delay to avoid high CPU usage
