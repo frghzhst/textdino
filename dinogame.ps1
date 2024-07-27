@@ -1,4 +1,5 @@
-<#$asciichars = @('█', '▓', '▒', '░', '#', '@', '$', '%', '&', '*', '.', ':', ';', ',', '"', ' ')
+<#
+$asciichars = @('█', '▓', '▒', '░', '#', '@', '$', '%', '&', '*', '.', ':', ';', ',', '"', ' ')
 Write-Host $asciichars
 
 while (-not [System.Console]::KeyAvailable) {
@@ -11,13 +12,31 @@ Write-Host "Key pressed: $($key.Key)"
 
 $randomNumber = Get-Random -Minimum 0 -Maximum 10
 #>
-function screen() {
-	$width = [Console]::WindowWidth 
-	$height = [Console]::WindowWidth
-	$matrix = @(@(0) * $width)
-	for ($i = 1; $i -lt $height; $i++) {
-		$matrix += ,@(0) * $width	
-	}
+function screen {
+    $asciichars = @('█', '▓', '▒', '░', '#', '@', '$', '%', '&', '*', '.', ':', ';', ',', '"', ' ')
+    $width = [Console]::WindowWidth 
+    $height = [Console]::WindowHeight
+    $matrix = New-Object 'object[,]' $height, $width
+
+    for ($row = 0; $row -lt $height; $row++) {
+        for ($col = 0; $col -lt $width; $col++) {
+            $matrix[$row, $col] = $asciichars[Get-Random -Minimum 0 -Maximum $asciichars.Count]
+        }
+    }
+
+    while ($true) {
+        $screenText = ''
+        for ($row = 0; $row -lt $height; $row++) {
+            for ($col = 0; $col -lt $width; $col++) {
+                $screenText += $matrix[$row, $col]
+            }
+        }
+        
+        Clear-Host
+        Write-Host $screenText -NoNewline
+        
+        Start-Sleep -Milliseconds 100  # Adjust the sleep time as needed
+    }
 }
 
 screen
@@ -33,4 +52,4 @@ while ($consoleKeyInfo.Key -ne 'Q') {
         # Perform the desired action for the key press
     }
 }
-#>
+#>                                                                                                                                                                                       
